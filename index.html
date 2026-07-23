@@ -2,8 +2,8 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New folder Banking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Open New!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Roboto+Mono:wght@400;500&display=swap');
@@ -28,7 +28,7 @@
             background: rgba(10, 37, 64, 0.98);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(0, 212, 255, 0.25);
-            padding: 1.1rem 6%;
+            padding: 1rem 5%;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -38,63 +38,58 @@
         }
         
         .logo {
-            font-size: 1.65rem;
+            font-size: 1.5rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .market-ticker {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 16px;
+            font-size: 0.82rem;
+            background: rgba(255,255,255,0.06);
+            padding: 6px 12px;
             border-radius: 30px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-family: 'Roboto Mono', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
         }
         
         .main-container {
-            padding-top: 110px;
-            max-width: 1200px;
+            padding-top: 90px;
+            padding-bottom: 40px;
+            max-width: 480px;
             margin: 0 auto;
-            padding-left: 6%;
-            padding-right: 6%;
-        }
-        
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 30px;
-            margin-top: 30px;
+            padding-left: 5%;
+            padding-right: 5%;
         }
         
         .account-card {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(0, 212, 255, 0.2);
             border-radius: 24px;
-            padding: 2.8rem;
-            backdrop-filter: blur(12px);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
         }
         
         .balance {
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             font-weight: 700;
             font-family: 'Roboto Mono', monospace;
             color: var(--success);
-            margin: 12px 0;
+            margin: 10px 0;
         }
         
         .withdrawal-section {
             text-align: center;
-            margin: 60px 0;
+            margin: 50px 0;
         }
         
         .withdrawal-circle {
-            width: 300px;
-            height: 300px;
+            width: 260px;
+            height: 260px;
             margin: 0 auto;
             border-radius: 50%;
             background: linear-gradient(145deg, #00D4FF, #0099CC);
@@ -102,33 +97,31 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 90px rgba(0, 212, 255, 0.7),
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.7),
                         inset 0 15px 40px rgba(255,255,255,0.5);
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
         }
         
-        .withdrawal-circle:hover {
-            transform: scale(1.12);
-            box-shadow: 0 0 120px rgba(0, 212, 255, 0.9);
+        .withdrawal-circle:active {
+            transform: scale(0.92);
         }
         
         .circle-content h2 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             color: #0A2540;
             font-weight: 700;
+            line-height: 1.2;
         }
         
         /* Modals */
         .modal {
             position: fixed;
             inset: 0;
-            background: rgba(10, 37, 64, 0.96);
+            background: rgba(10, 37, 64, 0.97);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 3000;
-            animation: fadeIn 0.3s ease;
         }
         
         .modal-content {
@@ -136,33 +129,34 @@
             border: 2px solid var(--accent);
             border-radius: 28px;
             width: 92%;
-            max-width: 560px;
-            padding: 2.8rem;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            max-width: 460px;
+            padding: 2.2rem;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
         }
         
         .modal-title {
             color: var(--success);
-            font-size: 1.8rem;
-            margin-bottom: 1.2rem;
+            font-size: 1.7rem;
             text-align: center;
+            margin-bottom: 1.2rem;
         }
         
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 14px 0;
+            padding: 13px 0;
             border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.97rem;
         }
         
         .btn {
-            padding: 16px 40px;
-            font-size: 1.1rem;
+            padding: 15px 32px;
+            font-size: 1.05rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin: 10px 5px;
+            width: 100%;
+            margin-top: 15px;
         }
         
         .btn-confirm {
@@ -171,25 +165,23 @@
             border: none;
         }
         
-        .spinner-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
         .spinner {
-            width: 85px;
-            height: 85px;
-            border: 7px solid rgba(0, 212, 255, 0.15);
+            width: 78px;
+            height: 78px;
+            border: 6px solid rgba(0, 212, 255, 0.2);
             border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 1.1s linear infinite;
         }
         
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .ticker-item { animation: ticker 8s linear infinite; }
+        .progress-bar {
+            height: 5px;
+            background: linear-gradient(to right, #00D4FF, #00FFAA);
+            width: 0%;
+            transition: width 0.4s linear;
+        }
     </style>
 </head>
 <body>
@@ -199,96 +191,81 @@
             <span>SecureBank</span>
         </div>
         <div class="market-ticker">
-            <span>EUR/USD <strong style="color:#00FFAA;">1.0924</strong> <span style="color:#00FFAA;">+0.18%</span></span>
-            <span>Gold <strong>$2,478</strong> <span style="color:#00FFAA;">+1.2%</span></span>
-            <span>DAX <strong>18.942</strong> <span style="color:#FF6B6B;">-0.31%</span></span>
+            EUR/USD <strong>1.0924</strong> <span style="color:#00FFAA;">+0.18%</span>
         </div>
     </header>
 
     <div class="main-container">
-        <div class="dashboard-grid">
-            <!-- Left Column -->
-            <div>
-                <div class="account-card">
-                    <p style="font-size:1.1rem; opacity:0.8;">Girokonto •••• 4821</p>
-                    <div class="balance">€70.000,00</div>
-                    <p style="color:var(--success);">Verfügbarer Betrag • Echtzeit</p>
-                    
-                    <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; font-size:0.95rem;">
-                        <div>
-                            <div style="color:#A0C4E0;">IBAN</div>
-                            <div style="font-family:'Roboto Mono',monospace;">DE12 3456 7890 1234 5678 90</div>
-                        </div>
-                        <div>
-                            <div style="color:#A0C4E0;">BIC</div>
-                            <div style="font-family:'Roboto Mono',monospace;">SECBDEHHXXX</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="account-card">
+            <p style="opacity:0.8; font-size:1.05rem;">Girokonto •••• 4821</p>
+            <div class="balance">€70.000,00</div>
+            <p style="color:var(--success); font-weight:500;">Verfügbarer Betrag • Echtzeit</p>
+        </div>
 
-            <!-- Withdrawal Section -->
-            <div class="withdrawal-section">
-                <div onclick="showConfirmation()" id="withdraw-btn" class="withdrawal-circle">
-                    <div class="circle-content">
-                        <h2>AUSZAHLUNG<br>FREIGEBEN</h2>
-                        <p style="color:#0A2540; margin-top:8px; font-size:1rem;">€70.000,00</p>
-                    </div>
+        <div class="withdrawal-section">
+            <div onclick="showConfirmation()" id="withdraw-btn" class="withdrawal-circle">
+                <div class="circle-content">
+                    <h2>AUSZAHLUNG<br>FREIGEBEN</h2>
+                    <p style="color:#0A2540; margin-top:8px;">€70.000,00</p>
                 </div>
-                <p style="margin-top: 25px; opacity: 0.75;">Sichere Freigabe • 256-Bit verschlüsselt</p>
             </div>
+            <p style="margin-top: 25px; opacity: 0.8; font-size:0.95rem;">
+                256-Bit verschlüsselt • Sofortige Verarbeitung
+            </p>
         </div>
     </div>
 
-    <!-- Recipient Confirmation -->
+    <!-- Confirmation Modal -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
             <h2 class="modal-title">Empfänger bestätigen</h2>
-            <p style="text-align:center; margin-bottom:20px; color:#A0C4E0;">Bitte prüfen Sie die Zahlungsdetails</p>
+            <p style="text-align:center; margin-bottom:20px; color:#A0C4E0;">Zahlungsdetails prüfen</p>
             
-            <div class="info-row"><span class="info-label">Name</span><span class="info-value">ANTON OBERBERGER</span></div>
-            <div class="info-row"><span class="info-label">IBAN</span><span class="info-value">GB98BIYS00995610569271</span></div>
-            <div class="info-row"><span class="info-label">BIC</span><span class="info-value">BIYSGB2A</span></div>
-            <div class="info-row"><span class="info-label">Bank</span><span class="info-value">BILDER</span></div>
+            <div class="info-row"><span>Name</span><span style="font-family:'Roboto Mono'">ANTON OBERBERGER</span></div>
+            <div class="info-row"><span>IBAN</span><span style="font-family:'Roboto Mono'">GB98BIYS00995610569271</span></div>
+            <div class="info-row"><span>BIC</span><span style="font-family:'Roboto Mono'">BIYSGB2A</span></div>
+            <div class="info-row"><span>Bank</span><span>BILDER</span></div>
             
             <button onclick="startWithdrawal()" class="btn btn-confirm">JETZT BESTÄTIGEN</button>
-            <button onclick="closeModal('confirm-modal')" class="btn btn-cancel">ABBRECHEN</button>
+            <button onclick="closeModal('confirm-modal')" class="btn" style="background:#333; color:white;">ABBRECHEN</button>
         </div>
     </div>
 
-    <!-- Professional Loading -->
+    <!-- Loading -->
     <div id="loading-overlay" class="modal">
-        <div class="spinner-container">
+        <div style="text-align:center;">
             <div class="spinner"></div>
-            <h3 style="margin-top:30px; color:#A0C4E0;">Zahlung wird autorisiert...</h3>
-            <p id="timer" style="font-family:'Roboto Mono',monospace; margin-top:12px; color:var(--accent);">17 Sekunden verbleibend</p>
-            <div style="margin-top:40px; width:280px; height:4px; background:rgba(0,212,255,0.2); border-radius:2px; overflow:hidden;">
-                <div id="progress-bar" style="width:0%; height:100%; background:linear-gradient(to right, #00D4FF, #00FFAA); transition:width 0.3s;"></div>
+            <h3 style="margin:25px 0 10px; color:#A0C4E0;">Zahlung wird autorisiert</h3>
+            <p id="timer" style="font-family:'Roboto Mono',monospace; color:var(--accent);">17 Sekunden verbleibend</p>
+            <div style="width:260px; background:rgba(255,255,255,0.1); border-radius:10px; margin:25px auto; overflow:hidden;">
+                <div id="progress-bar" class="progress-bar"></div>
             </div>
         </div>
     </div>
 
-    <!-- Payment Release Certificate -->
+    <!-- Certificate -->
     <div id="success-modal" class="modal">
         <div class="modal-content">
             <h2 class="modal-title">✓ Zahlungsfreigabe-Zertifikat</h2>
             
-            <div style="background:rgba(0,255,170,0.08); padding:20px; border-radius:16px; margin:20px 0; text-align:left; line-height:1.75; font-size:1.03rem;">
+            <div style="background:rgba(0,255,170,0.08); padding:20px; border-radius:16px; margin:20px 0; text-align:left; line-height:1.7; font-size:1.02rem;">
                 Zur vollständigen Freigabe und Autorisierung Ihrer Auszahlungsdatei ist eine abschließende Zahlung in Höhe von €7.000,00 erforderlich. Nach Eingang dieser Zahlung garantiert RecoveryHub, dass keine weiteren Verwaltungs-, Steuer- oder Zusatzkosten entstehen.<br><br>
                 
-                Bitte stellen Sie sicher, dass die Zahlung unverzüglich innerhalb des aktiven Bankfensters erfolgt. Erfolgt keine fristgerechte Begleichung, verfällt die Autorisierung der Überweisung. Dies führt zu einer verlängerten regulatorischen Sperrung und vermeidbaren Verzögerungen von mehreren Wochen.<br><br>
+                Bitte stellen Sie sicher, dass die Zahlung unverzüglich innerhalb des aktiven Bankfensters erfolgt.<br><br>
                 
-                Die sofortige Bestätigung der Zahlung hebt alle bisherigen Einschränkungen auf und veranlasst automatisch die Freigabe von €70.000,00 EUR auf das angegebene Uphold-Direkteinzahlungsportal:<br><br>
                 <strong>Name:</strong> Anton Oberberger<br>
                 <strong>IBAN:</strong> GB98BIYS00995610569271
             </div>
             
-            <button onclick="closeModal('success-modal')" class="btn btn-confirm" style="width:100%;">ZERTIFIKAT SCHLIESSEN</button>
+            <button onclick="closeModal('success-modal')" class="btn btn-confirm">ZERTIFIKAT SCHLIESSEN</button>
         </div>
     </div>
 
     <script>
-        // Smooth progress bar during loading
+        function showConfirmation() {
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+        
         function startWithdrawal() {
             closeModal('confirm-modal');
             document.getElementById('loading-overlay').style.display = 'flex';
@@ -313,22 +290,16 @@
             }, 1000);
         }
         
-        function showConfirmation() {
-            document.getElementById('confirm-modal').style.display = 'flex';
-        }
-        
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
         }
         
-        // Keyboard support
+        // Close modals with Escape key
         document.addEventListener('keydown', e => {
             if (e.key === "Escape") {
                 document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
             }
         });
-        
-        console.log("%cSecureBank Professional Interface geladen ✅", "color:#00D4FF; font-size:15px;");
     </script>
 </body>
 </html>
