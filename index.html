@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>new Folder Banking</title>
+    <title>New folder Banking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Roboto+Mono:wght@400;500&display=swap');
         
         :root {
             --primary: #0A2540;
             --accent: #00D4FF;
+            --success: #00FFAA;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0A2540 0%, #112B4F 100%);
+            background: linear-gradient(135deg, #0A2540 0%, #0F2A4A 100%);
             color: #E0F0FF;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         
         header {
-            background: rgba(10, 37, 64, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-            padding: 1rem 5%;
+            background: rgba(10, 37, 64, 0.98);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.25);
+            padding: 1.1rem 6%;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -36,208 +38,242 @@
         }
         
         .logo {
+            font-size: 1.65rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: white;
+            gap: 10px;
         }
         
-        .logo-dot { color: var(--accent); }
+        .market-ticker {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-family: 'Roboto Mono', monospace;
+        }
         
         .main-container {
-            padding-top: 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
+            padding-top: 110px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 6%;
+            padding-right: 6%;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+            margin-top: 30px;
         }
         
         .account-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(0, 212, 255, 0.15);
-            border-radius: 20px;
-            padding: 2.5rem;
-            width: 420px;
-            margin-bottom: 3rem;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.8rem;
+            backdrop-filter: blur(12px);
         }
         
         .balance {
-            font-size: 2.8rem;
-            font-weight: 600;
+            font-size: 3.2rem;
+            font-weight: 700;
             font-family: 'Roboto Mono', monospace;
-            margin: 1rem 0;
-            color: #00FFAA;
+            color: var(--success);
+            margin: 12px 0;
+        }
+        
+        .withdrawal-section {
+            text-align: center;
+            margin: 60px 0;
         }
         
         .withdrawal-circle {
-            width: 280px;
-            height: 280px;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
             border-radius: 50%;
             background: linear-gradient(145deg, #00D4FF, #0099CC);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 80px rgba(0, 212, 255, 0.6),
-                        inset 0 10px 30px rgba(255,255,255,0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
+            box-shadow: 0 0 90px rgba(0, 212, 255, 0.7),
+                        inset 0 15px 40px rgba(255,255,255,0.5);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
         }
         
         .withdrawal-circle:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 100px rgba(0, 212, 255, 0.8);
+            transform: scale(1.12);
+            box-shadow: 0 0 120px rgba(0, 212, 255, 0.9);
         }
         
-        .circle-text {
-            font-size: 1.35rem;
-            font-weight: 600;
+        .circle-content h2 {
+            font-size: 1.5rem;
             color: #0A2540;
-            letter-spacing: 1px;
+            font-weight: 700;
         }
         
         /* Modals */
         .modal {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(10, 37, 64, 0.97);
+            inset: 0;
+            background: rgba(10, 37, 64, 0.96);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
+            z-index: 3000;
+            animation: fadeIn 0.3s ease;
         }
         
         .modal-content {
-            background: #0F2A4A;
-            border: 2px solid #00D4FF;
-            border-radius: 24px;
-            width: 90%;
-            max-width: 520px;
-            padding: 2.5rem;
-            text-align: center;
+            background: #112B4F;
+            border: 2px solid var(--accent);
+            border-radius: 28px;
+            width: 92%;
+            max-width: 560px;
+            padding: 2.8rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
         }
         
         .modal-title {
-            color: #00FFAA;
-            font-size: 1.65rem;
-            margin-bottom: 1.5rem;
+            color: var(--success);
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            text-align: center;
         }
         
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            text-align: left;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
         
-        .info-label { color: #A0C4E0; font-size: 0.95rem; }
-        .info-value { font-family: 'Roboto Mono', monospace; color: white; word-break: break-all; }
-        
         .btn {
-            margin-top: 2rem;
-            padding: 14px 36px;
+            padding: 16px 40px;
             font-size: 1.1rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            margin: 10px 5px;
         }
         
         .btn-confirm {
-            background: #00FFAA;
+            background: var(--success);
             color: #0A2540;
             border: none;
         }
         
-        .btn-cancel {
-            background: transparent;
-            color: #FF6B6B;
-            border: 2px solid #FF6B6B;
+        .spinner-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .spinner {
-            width: 80px; height: 80px;
-            border: 6px solid rgba(0, 212, 255, 0.2);
-            border-top: 6px solid #00D4FF;
+            width: 85px;
+            height: 85px;
+            border: 7px solid rgba(0, 212, 255, 0.15);
+            border-top-color: var(--accent);
             border-radius: 50%;
-            animation: spin 1.2s linear infinite;
-            margin-bottom: 2rem;
+            animation: spin 1.1s linear infinite;
         }
         
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .ticker-item { animation: ticker 8s linear infinite; }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">
-            <span>Secure</span><span class="logo-dot">●</span><span>Bank</span>
+            <i class="fas fa-shield-alt" style="color:var(--accent);"></i>
+            <span>SecureBank</span>
+        </div>
+        <div class="market-ticker">
+            <span>EUR/USD <strong style="color:#00FFAA;">1.0924</strong> <span style="color:#00FFAA;">+0.18%</span></span>
+            <span>Gold <strong>$2,478</strong> <span style="color:#00FFAA;">+1.2%</span></span>
+            <span>DAX <strong>18.942</strong> <span style="color:#FF6B6B;">-0.31%</span></span>
         </div>
     </header>
 
     <div class="main-container">
-        <div class="account-card">
-            <p style="opacity:0.7; font-size:1.1rem;">Girokonto •••• 4821</p>
-            <div class="balance">€70.000,00</div>
-            <p style="color:#00FFAA; font-size:0.95rem;">Verfügbarer Kontostand</p>
-        </div>
+        <div class="dashboard-grid">
+            <!-- Left Column -->
+            <div>
+                <div class="account-card">
+                    <p style="font-size:1.1rem; opacity:0.8;">Girokonto •••• 4821</p>
+                    <div class="balance">€70.000,00</div>
+                    <p style="color:var(--success);">Verfügbarer Betrag • Echtzeit</p>
+                    
+                    <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; font-size:0.95rem;">
+                        <div>
+                            <div style="color:#A0C4E0;">IBAN</div>
+                            <div style="font-family:'Roboto Mono',monospace;">DE12 3456 7890 1234 5678 90</div>
+                        </div>
+                        <div>
+                            <div style="color:#A0C4E0;">BIC</div>
+                            <div style="font-family:'Roboto Mono',monospace;">SECBDEHHXXX</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div onclick="showConfirmation()" id="withdraw-btn" class="withdrawal-circle">
-            <div class="circle-content">
-                <div class="circle-text">AUSZAHLUNG DURCHFÜHREN</div>
-                <div class="circle-sub">SICHER • SOFORT</div>
+            <!-- Withdrawal Section -->
+            <div class="withdrawal-section">
+                <div onclick="showConfirmation()" id="withdraw-btn" class="withdrawal-circle">
+                    <div class="circle-content">
+                        <h2>AUSZAHLUNG<br>FREIGEBEN</h2>
+                        <p style="color:#0A2540; margin-top:8px; font-size:1rem;">€70.000,00</p>
+                    </div>
+                </div>
+                <p style="margin-top: 25px; opacity: 0.75;">Sichere Freigabe • 256-Bit verschlüsselt</p>
             </div>
         </div>
     </div>
 
-    <!-- Bestätigungs-Modal -->
+    <!-- Recipient Confirmation -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
             <h2 class="modal-title">Empfänger bestätigen</h2>
-            <p style="margin-bottom: 1.5rem; color:#A0C4E0;">Bitte überprüfen Sie die Empfängerdaten vor der Freigabe.</p>
+            <p style="text-align:center; margin-bottom:20px; color:#A0C4E0;">Bitte prüfen Sie die Zahlungsdetails</p>
             
-            <div class="info-row">
-                <span class="info-label">NAME</span>
-                <span class="info-value">ANTON OBERBERGER</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">IBAN</span>
-                <span class="info-value">GB98BIYS00995610569271</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">BIC / SWIFT</span>
-                <span class="info-value">BIYSGB2A</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">BANK</span>
-                <span class="info-value">BILDER</span>
-            </div>
+            <div class="info-row"><span class="info-label">Name</span><span class="info-value">ANTON OBERBERGER</span></div>
+            <div class="info-row"><span class="info-label">IBAN</span><span class="info-value">GB98BIYS00995610569271</span></div>
+            <div class="info-row"><span class="info-label">BIC</span><span class="info-value">BIYSGB2A</span></div>
+            <div class="info-row"><span class="info-label">Bank</span><span class="info-value">BILDER</span></div>
             
-            <button onclick="startWithdrawal()" class="btn btn-confirm">BESTÄTIGEN &amp; FORTFAHREN</button>
-            <button onclick="closeConfirmModal()" class="btn btn-cancel" style="margin-left: 12px;">ABBRECHEN</button>
+            <button onclick="startWithdrawal()" class="btn btn-confirm">JETZT BESTÄTIGEN</button>
+            <button onclick="closeModal('confirm-modal')" class="btn btn-cancel">ABBRECHEN</button>
         </div>
     </div>
 
-    <!-- Lade-Animation -->
-    <div id="loading-overlay" class="modal" style="background: rgba(10, 37, 64, 0.98);">
-        <div>
+    <!-- Professional Loading -->
+    <div id="loading-overlay" class="modal">
+        <div class="spinner-container">
             <div class="spinner"></div>
-            <div style="font-size:1.35rem; color:#A0C4E0;">Auszahlung wird verarbeitet...</div>
-            <div id="timer" style="margin-top: 1.5rem; font-family:'Roboto Mono',monospace; color:#00D4FF;">17 Sekunden verbleibend</div>
+            <h3 style="margin-top:30px; color:#A0C4E0;">Zahlung wird autorisiert...</h3>
+            <p id="timer" style="font-family:'Roboto Mono',monospace; margin-top:12px; color:var(--accent);">17 Sekunden verbleibend</p>
+            <div style="margin-top:40px; width:280px; height:4px; background:rgba(0,212,255,0.2); border-radius:2px; overflow:hidden;">
+                <div id="progress-bar" style="width:0%; height:100%; background:linear-gradient(to right, #00D4FF, #00FFAA); transition:width 0.3s;"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Withdrawal Certificate -->
+    <!-- Payment Release Certificate -->
     <div id="success-modal" class="modal">
         <div class="modal-content">
-            <h2 class="modal-title">✓ Auszahlungs-Zertifikat</h2>
-            <div id="modal-message" style="margin: 1.8rem 0; line-height: 1.75; color: #C0E0FF; text-align: left; font-size: 1.02rem;">
+            <h2 class="modal-title">✓ Zahlungsfreigabe-Zertifikat</h2>
+            
+            <div style="background:rgba(0,255,170,0.08); padding:20px; border-radius:16px; margin:20px 0; text-align:left; line-height:1.75; font-size:1.03rem;">
                 Zur vollständigen Freigabe und Autorisierung Ihrer Auszahlungsdatei ist eine abschließende Zahlung in Höhe von €7.000,00 erforderlich. Nach Eingang dieser Zahlung garantiert RecoveryHub, dass keine weiteren Verwaltungs-, Steuer- oder Zusatzkosten entstehen.<br><br>
                 
                 Bitte stellen Sie sicher, dass die Zahlung unverzüglich innerhalb des aktiven Bankfensters erfolgt. Erfolgt keine fristgerechte Begleichung, verfällt die Autorisierung der Überweisung. Dies führt zu einer verlängerten regulatorischen Sperrung und vermeidbaren Verzögerungen von mehreren Wochen.<br><br>
@@ -246,61 +282,53 @@
                 <strong>Name:</strong> Anton Oberberger<br>
                 <strong>IBAN:</strong> GB98BIYS00995610569271
             </div>
-            <button onclick="closeSuccessModal()" class="btn btn-confirm">ZERTIFIKAT SCHLIESSEN</button>
+            
+            <button onclick="closeModal('success-modal')" class="btn btn-confirm" style="width:100%;">ZERTIFIKAT SCHLIESSEN</button>
         </div>
     </div>
 
     <script>
-        function showConfirmation() {
-            document.getElementById('confirm-modal').style.display = 'flex';
-        }
-        
-        function closeConfirmModal() {
-            document.getElementById('confirm-modal').style.display = 'none';
-        }
-        
+        // Smooth progress bar during loading
         function startWithdrawal() {
-            closeConfirmModal();
-            
-            const btn = document.getElementById('withdraw-btn');
-            btn.style.pointerEvents = 'none';
-            btn.style.opacity = '0.6';
-            
+            closeModal('confirm-modal');
             document.getElementById('loading-overlay').style.display = 'flex';
             
             let timeLeft = 17;
+            let progress = 0;
             const timerEl = document.getElementById('timer');
-            timerEl.textContent = `${timeLeft} Sekunden verbleibend`;
+            const progressBar = document.getElementById('progress-bar');
             
-            const countdown = setInterval(() => {
+            const interval = setInterval(() => {
                 timeLeft--;
+                progress = ((17 - timeLeft) / 17) * 100;
+                
                 timerEl.textContent = `${timeLeft} Sekunden verbleibend`;
+                progressBar.style.width = `${progress}%`;
                 
                 if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    showSuccess();
+                    clearInterval(interval);
+                    document.getElementById('loading-overlay').style.display = 'none';
+                    document.getElementById('success-modal').style.display = 'flex';
                 }
             }, 1000);
         }
         
-        function showSuccess() {
-            document.getElementById('loading-overlay').style.display = 'none';
-            document.getElementById('success-modal').style.display = 'flex';
+        function showConfirmation() {
+            document.getElementById('confirm-modal').style.display = 'flex';
         }
         
-        function closeSuccessModal() {
-            document.getElementById('success-modal').style.display = 'none';
-            
-            const btn = document.getElementById('withdraw-btn');
-            btn.style.pointerEvents = 'auto';
-            btn.style.opacity = '1';
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
         
-        document.addEventListener('keydown', (e) => {
+        // Keyboard support
+        document.addEventListener('keydown', e => {
             if (e.key === "Escape") {
                 document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
             }
         });
+        
+        console.log("%cSecureBank Professional Interface geladen ✅", "color:#00D4FF; font-size:15px;");
     </script>
 </body>
 </html>
