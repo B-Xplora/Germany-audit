@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>KRAKEN-BTC Dashboard</title>
+  <title>KRAKEN-BTC Mobile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       --bg: #050814;
@@ -16,8 +17,8 @@
       --border: #1b2238;
       --success: #3bd18a;
       --warning: #ffb347;
-      --shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-      --radius: 12px;
+      --radius: 14px;
+      --shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
     }
 
     * {
@@ -33,20 +34,19 @@
       color: var(--text);
       min-height: 100vh;
       display: flex;
-      align-items: stretch;
       justify-content: center;
+      align-items: stretch;
     }
 
-    .app-shell {
+    .app {
       width: 100%;
-      max-width: 1200px;
-      margin: 32px;
+      max-width: 480px;
+      margin: 0 auto;
       background: linear-gradient(145deg, #050814 0, #0b1020 40%, #050814 100%);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      border: 1px solid #1b2238;
+      border-radius: 0;
+      box-shadow: none;
       position: relative;
+      overflow: hidden;
     }
 
     /* Top bar */
@@ -54,7 +54,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 24px;
+      padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       background: linear-gradient(90deg, #050814, #0b1020);
     }
@@ -66,8 +66,8 @@
     }
 
     .brand-logo {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #3bb3ff, #050814);
       position: relative;
@@ -77,143 +77,61 @@
     .brand-logo::before {
       content: "";
       position: absolute;
-      inset: 6px;
+      inset: 5px;
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .brand-title {
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--accent);
     }
 
-    .user-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 13px;
+    .brand-sub {
+      font-size: 10px;
       color: var(--muted);
     }
 
-    .pill {
-      padding: 6px 12px;
+    .user-pill {
+      padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: rgba(11, 16, 32, 0.8);
-    }
-
-    .pill-accent {
-      border-color: var(--accent-soft);
-      color: var(--accent);
-    }
-
-    /* Welcome overlay */
-    .welcome-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, #151b3a 0, #050814 55%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-      animation: fadeOut 0.8s ease 5s forwards;
-    }
-
-    .welcome-logo {
-      font-size: 28px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .welcome-sub {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 32px;
-    }
-
-    .welcome-wave {
-      width: 220px;
-      height: 4px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 18px;
-    }
-
-    .welcome-wave::before {
-      content: "";
-      position: absolute;
-      width: 60%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, #ffffff, transparent);
-      opacity: 0.6;
-      animation: waveSlide 2.2s ease-in-out infinite;
-    }
-
-    .welcome-text {
-      font-size: 16px;
-      color: var(--text);
-      margin-top: 8px;
-    }
-
-    .welcome-user {
-      margin-top: 4px;
-      font-size: 13px;
+      background: rgba(11, 16, 32, 0.9);
+      font-size: 10px;
       color: var(--muted);
     }
 
-    @keyframes waveSlide {
-      0% {
-        transform: translateX(-80%);
-      }
-      50% {
-        transform: translateX(40%);
-      }
-      100% {
-        transform: translateX(120%);
-      }
+    /* Screens */
+    .screen {
+      padding: 14px 16px 18px;
+      display: none;
     }
 
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    /* Layout */
-    .content {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 20px;
-      padding: 20px 24px 24px;
+    .screen.active {
+      display: block;
     }
 
     .card {
       background: var(--card);
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      padding: 18px 18px 16px;
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
-      position: relative;
+      padding: 14px 14px 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .card-title {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 500;
       color: var(--muted);
       text-transform: uppercase;
@@ -221,8 +139,8 @@
     }
 
     .card-tag {
-      font-size: 11px;
-      padding: 4px 10px;
+      font-size: 10px;
+      padding: 4px 8px;
       border-radius: 999px;
       border: 1px solid var(--border);
       color: var(--muted);
@@ -233,97 +151,94 @@
       color: var(--accent);
     }
 
-    /* Dashboard main */
     .balance-main {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 600;
       margin-bottom: 4px;
     }
 
     .balance-label {
-      font-size: 13px;
+      font-size: 11px;
       color: var(--muted);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .wallet-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
       margin-bottom: 10px;
+      gap: 8px;
     }
 
     .wallet-address {
-      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 11px;
+      font-family: ui-monospace, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+      font-size: 10px;
       color: var(--text);
       background: #050814;
-      padding: 6px 10px;
+      padding: 6px 8px;
       border-radius: 999px;
       border: 1px solid var(--border);
+      word-break: break-all;
     }
 
     .status-pill {
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 10px;
       background: rgba(59, 179, 255, 0.08);
       border: 1px solid rgba(59, 179, 255, 0.4);
       color: var(--accent);
+      white-space: nowrap;
     }
 
-    .metrics-row {
+    .metric-row {
       display: flex;
-      gap: 12px;
-      margin-top: 10px;
-      margin-bottom: 6px;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
     }
 
     .metric {
-      flex: 1;
       background: #0b1020;
       border-radius: 10px;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border: 1px solid var(--border);
+      font-size: 11px;
     }
 
     .metric-label {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .metric-value {
-      font-size: 14px;
+      font-size: 11px;
       font-weight: 500;
     }
 
-    .metric-value-warning {
+    .metric-warning {
       color: var(--warning);
     }
 
-    .metric-value-success {
-      color: var(--success);
-    }
-
-    /* Outgoing transactions */
-    .outgoing-card {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px dashed #222a3f;
+    .metric-danger {
+      color: var(--danger);
     }
 
     .outgoing-title {
-      font-size: 13px;
-      margin-bottom: 6px;
+      font-size: 11px;
+      margin-top: 10px;
+      margin-bottom: 4px;
     }
 
     .outgoing-sub {
-      font-size: 12px;
+      font-size: 10px;
       color: var(--muted);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .btn {
@@ -336,7 +251,7 @@
       border: 1px solid var(--accent-soft);
       background: linear-gradient(135deg, #1f6fb8, #3bb3ff);
       color: #050814;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       cursor: pointer;
       transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
@@ -360,24 +275,28 @@
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
     }
 
-    /* Right column: identity + receipt */
+    .btn-block {
+      width: 100%;
+      justify-content: center;
+    }
+
     .identity-block {
-      font-size: 12px;
+      font-size: 11px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px 12px;
+      gap: 8px 10px;
       margin-top: 6px;
     }
 
     .identity-label {
       color: var(--muted);
-      font-size: 11px;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
 
     .identity-value {
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .identity-span {
@@ -385,55 +304,28 @@
     }
 
     .wallet-mono {
-      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 11px;
+      font-family: ui-monospace, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+      font-size: 10px;
       background: #050814;
-      padding: 6px 10px;
+      padding: 6px 8px;
       border-radius: 8px;
       border: 1px solid var(--border);
       color: var(--text);
+      word-break: break-all;
     }
 
-    .ownership-footer {
+    .footer-buttons {
       display: flex;
-      justify-content: flex-end;
       gap: 8px;
-      margin-top: 14px;
-    }
-
-    /* Receipt */
-    .receipt-card {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px dashed #222a3f;
-      font-size: 12px;
-    }
-
-    .receipt-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .receipt-title {
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .receipt-status {
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--warning);
-      color: var(--warning);
-      background: rgba(255, 179, 71, 0.08);
+      margin-top: 12px;
     }
 
     .receipt-row {
       display: flex;
       justify-content: space-between;
       margin-bottom: 4px;
+      font-size: 10px;
     }
 
     .receipt-label {
@@ -444,53 +336,144 @@
       font-weight: 500;
     }
 
-    .receipt-value-danger {
+    .receipt-danger {
       color: var(--danger);
     }
 
-    .receipt-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 12px;
+    .receipt-status {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--warning);
+      color: var(--warning);
+      background: rgba(255, 179, 71, 0.08);
     }
 
-    /* Wallet popup */
+    /* Welcome overlay */
+    .welcome-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #151b3a 0, #050814 55%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      animation: fadeOut 0.8s ease 5s forwards;
+    }
+
+    .welcome-logo {
+      font-size: 22px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .welcome-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .welcome-wave {
+      width: 200px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .welcome-wave::before {
+      content: "";
+      position: absolute;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, #ffffff, transparent);
+      opacity: 0.6;
+      animation: waveSlide 2.2s ease-in-out infinite;
+    }
+
+    .welcome-text {
+      font-size: 13px;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .welcome-user {
+      margin-top: 2px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    @keyframes waveSlide {
+      0% {
+        transform: translateX(-80%);
+      }
+      50% {
+        transform: translateX(40%);
+      }
+      100% {
+        transform: translateX(120%);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* Popup */
     .popup-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(5, 8, 20, 0.75);
+      background: rgba(5, 8, 20, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 15;
-      animation: popupFadeIn 0.4s ease 5.1s forwards;
       opacity: 0;
       pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .popup-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .popup {
-      width: 360px;
+      width: 90%;
+      max-width: 360px;
       background: #0b1020;
       border-radius: 18px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      padding: 18px 18px 16px;
+      padding: 16px 16px 14px;
       transform: translateY(12px);
       opacity: 0;
-      animation: popupSlideUp 0.4s ease 5.1s forwards;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .popup-backdrop.active .popup {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .popup-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
       margin-bottom: 6px;
     }
 
     .popup-body {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .popup-footer {
@@ -499,50 +482,49 @@
       gap: 8px;
     }
 
-    @keyframes popupFadeIn {
-      to {
-        opacity: 1;
-        pointer-events: auto;
-      }
+    /* Bottom nav (simple) */
+    .bottom-nav {
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--muted);
+      background: #050814;
     }
 
-    @keyframes popupSlideUp {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    .nav-label {
+      font-size: 10px;
     }
 
-    /* Small screen */
-    @media (max-width: 900px) {
-      .app-shell {
-        margin: 12px;
-      }
-      .content {
-        grid-template-columns: 1fr;
-      }
+    .nav-btn {
+      font-size: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0b1020;
+      color: var(--muted);
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app">
     <!-- Top bar -->
     <header class="top-bar">
       <div class="brand">
         <div class="brand-logo"></div>
         <div>
           <div class="brand-title">KRAKEN-BTC</div>
-          <div style="font-size:11px;color:var(--muted);">Secure Digital Asset Dashboard</div>
+          <div class="brand-sub">Secure mobile asset dashboard</div>
         </div>
       </div>
-      <div class="user-meta">
-        <div class="pill pill-accent">Signed in: Jaswinder Singh 🇨🇦</div>
-        <div class="pill">Profile: Disability & Health Insurance</div>
-      </div>
+      <div class="user-pill">Jaswinder Singh · Canada 🇨🇦</div>
     </header>
 
-    <!-- Welcome overlay (5 seconds) -->
-    <div class="welcome-overlay">
+    <!-- Welcome overlay -->
+    <div class="welcome-overlay" id="welcomeOverlay">
       <div class="welcome-logo">KRAKEN-BTC</div>
       <div class="welcome-sub">Institutional-grade digital asset environment</div>
       <div class="welcome-wave"></div>
@@ -550,8 +532,8 @@
       <div class="welcome-user">Preparing your dashboard, Jaswinder Singh…</div>
     </div>
 
-    <!-- Wallet popup (connect 401k) -->
-    <div class="popup-backdrop">
+    <!-- Wallet popup -->
+    <div class="popup-backdrop" id="walletPopup">
       <div class="popup">
         <div class="popup-title">Kraken Wallet & 401k Integration</div>
         <div class="popup-body">
@@ -560,27 +542,28 @@
           on this dashboard?
         </div>
         <div class="popup-footer">
-          <button class="btn-secondary">No, continue to wallet</button>
-          <button class="btn">Yes, connect 401k</button>
+          <button class="btn-secondary" id="btnNo401k">No, continue to wallet</button>
+          <button class="btn" id="btnYes401k">Yes, connect 401k</button>
         </div>
       </div>
     </div>
 
-    <!-- Main content -->
-    <main class="content">
-      <!-- Left: main dashboard -->
+    <!-- Screen 1: Dashboard -->
+    <main class="screen active" id="screenDashboard">
       <section class="card">
         <div class="card-header">
           <div class="card-title">Primary BTC Wallet</div>
-          <div class="card-tag card-tag-accent">Live Balance</div>
+          <div class="card-tag card-tag-accent" id="walletTag">Live Balance</div>
         </div>
 
-        <div class="balance-main">$57,000.00</div>
-        <div class="balance-label">Current holdings in BTC (Kraken valuation)</div>
+        <div class="balance-main" id="balanceMain">$57,000.00</div>
+        <div class="balance-label" id="balanceLabel">
+          Current holdings in BTC (Kraken valuation)
+        </div>
 
         <div class="wallet-row">
           <div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:2px;">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:2px;">
               Wallet address
             </div>
             <div class="wallet-address">
@@ -590,38 +573,41 @@
           <div class="status-pill">Secure · Kraken Network</div>
         </div>
 
-        <div class="metrics-row">
+        <div class="metric-row">
           <div class="metric">
             <div class="metric-label">Network condition</div>
-            <div class="metric-value metric-value-warning">
+            <div class="metric-value metric-warning">
               High-value congestion
             </div>
           </div>
           <div class="metric">
             <div class="metric-label">Release requirement</div>
-            <div class="metric-value metric-value-danger">
-              $110 clearance fee
+            <div class="metric-value metric-danger">
+              $110 BTC clearance fee
             </div>
           </div>
         </div>
 
-        <div class="outgoing-card">
-          <div class="outgoing-title">Outgoing transaction</div>
-          <div class="outgoing-sub">
-            You have 1 outgoing transaction pending release from this wallet.
-          </div>
-          <button class="btn">
-            Tap to open
-            <span style="font-size:14px;">⟶</span>
-          </button>
+        <div class="outgoing-title">Outgoing transaction</div>
+        <div class="outgoing-sub">
+          You have 1 outgoing transaction pending release from this wallet.
         </div>
+        <button class="btn btn-block" id="btnOpenOutgoing">
+          Tap to open <span style="font-size:14px;">⟶</span>
+        </button>
       </section>
+    </main>
 
-      <!-- Right: ownership + receipt -->
+    <!-- Screen 2: Ownership confirmation -->
+    <main class="screen" id="screenOwnership">
       <section class="card">
         <div class="card-header">
           <div class="card-title">Ownership confirmation</div>
           <div class="card-tag">Identity & purpose</div>
+        </div>
+
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">
+          To proceed, please confirm ownership of this wallet.
         </div>
 
         <div class="identity-block">
@@ -639,7 +625,9 @@
           </div>
           <div>
             <div class="identity-label">Payment reason</div>
-            <div class="identity-value">Disability upkeep & health insurance</div>
+            <div class="identity-value">
+              Disability upkeep & health insurance
+            </div>
           </div>
           <div class="identity-span">
             <div class="identity-label">BTC wallet</div>
@@ -649,59 +637,152 @@
           </div>
         </div>
 
-        <div class="ownership-footer">
-          <button class="btn-secondary">Cancel</button>
-          <button class="btn">Confirm ownership</button>
-        </div>
-
-        <div class="receipt-card">
-          <div class="receipt-header">
-            <div class="receipt-title">Kraken Transaction Receipt</div>
-            <div class="receipt-status">Pending release</div>
-          </div>
-
-          <div class="receipt-row">
-            <div class="receipt-label">Transaction type</div>
-            <div class="receipt-value">Outgoing</div>
-          </div>
-          <div class="receipt-row">
-            <div class="receipt-label">Wallet</div>
-            <div class="receipt-value">
-              3FZRgEWzWWsnNwZtJSWZ4vun3vYME8YB9W
-            </div>
-          </div>
-          <div class="receipt-row">
-            <div class="receipt-label">User</div>
-            <div class="receipt-value">Jaswinder Singh</div>
-          </div>
-          <div class="receipt-row">
-            <div class="receipt-label">Country</div>
-            <div class="receipt-value">Canada 🇨🇦</div>
-          </div>
-          <div class="receipt-row">
-            <div class="receipt-label">Reason</div>
-            <div class="receipt-value">
-              Disability upkeep & health insurance
-            </div>
-          </div>
-          <div class="receipt-row">
-            <div class="receipt-label">Network status</div>
-            <div class="receipt-value">High-value congestion</div>
-          </div>
-          <div class="receipt-row">
-            <div class="receipt-label">Required fee</div>
-            <div class="receipt-value receipt-value-danger">
-              $110 clearance fee
-            </div>
-          </div>
-
-          <div class="receipt-footer">
-            <button class="btn-secondary">Return to dashboard</button>
-            <button class="btn">Proceed to clearance</button>
-          </div>
+        <div class="footer-buttons">
+          <button class="btn-secondary btn-block" id="btnCancelOwnership">
+            Cancel
+          </button>
+          <button class="btn btn-block" id="btnConfirmOwnership">
+            Confirm ownership
+          </button>
         </div>
       </section>
     </main>
+
+    <!-- Screen 3: Receipt -->
+    <main class="screen" id="screenReceipt">
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">Kraken Transaction Receipt</div>
+          <div class="receipt-status">Pending release</div>
+        </div>
+
+        <div class="receipt-row">
+          <div class="receipt-label">Transaction type</div>
+          <div class="receipt-value">Outgoing</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Wallet</div>
+          <div class="receipt-value">
+            3FZRgEWzWWsnNwZtJSWZ4vun3vYME8YB9W
+          </div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">User</div>
+          <div class="receipt-value">Jaswinder Singh</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Country</div>
+          <div class="receipt-value">Canada 🇨🇦</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Reason</div>
+          <div class="receipt-value">
+            Disability upkeep & health insurance
+          </div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Network status</div>
+          <div class="receipt-value">High-value congestion</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Required fee</div>
+          <div class="receipt-value receipt-danger">
+            $110 BTC clearance fee
+          </div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Deposit address</div>
+          <div class="receipt-value" style="font-size:9px;">
+            bc1q5mtqsh96qmnesfrn0dtc9je2e2ts904pnpswvc
+          </div>
+        </div>
+
+        <div class="footer-buttons">
+          <button class="btn-secondary btn-block" id="btnBackDashboard">
+            Return to dashboard
+          </button>
+          <button class="btn btn-block" id="btnProceedClearance">
+            Proceed to clearance
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom nav -->
+    <footer class="bottom-nav">
+      <div class="nav-label">KRAKEN-BTC Mobile</div>
+      <button class="nav-btn" id="navDashboard">Dashboard</button>
+    </footer>
   </div>
+
+  <script>
+    const screenDashboard = document.getElementById("screenDashboard");
+    const screenOwnership = document.getElementById("screenOwnership");
+    const screenReceipt = document.getElementById("screenReceipt");
+    const walletPopup = document.getElementById("walletPopup");
+    const welcomeOverlay = document.getElementById("welcomeOverlay");
+
+    const btnOpenOutgoing = document.getElementById("btnOpenOutgoing");
+    const btnCancelOwnership = document.getElementById("btnCancelOwnership");
+    const btnConfirmOwnership = document.getElementById("btnConfirmOwnership");
+    const btnBackDashboard = document.getElementById("btnBackDashboard");
+    const btnProceedClearance = document.getElementById("btnProceedClearance");
+    const navDashboard = document.getElementById("navDashboard");
+    const btnYes401k = document.getElementById("btnYes401k");
+    const btnNo401k = document.getElementById("btnNo401k");
+    const balanceMain = document.getElementById("balanceMain");
+    const balanceLabel = document.getElementById("balanceLabel");
+    const walletTag = document.getElementById("walletTag");
+
+    function showScreen(screen) {
+      [screenDashboard, screenOwnership, screenReceipt].forEach((s) => {
+        s.classList.remove("active");
+      });
+      screen.classList.add("active");
+    }
+
+    // After welcome overlay fades, show 401k popup
+    setTimeout(() => {
+      walletPopup.classList.add("active");
+    }, 5200);
+
+    btnYes401k.addEventListener("click", () => {
+      walletPopup.classList.remove("active");
+      balanceMain.textContent = "$57,000.00 + 401k";
+      balanceLabel.textContent =
+        "BTC holdings plus linked $401k (Kraken valuation)";
+      walletTag.textContent = "BTC + 401k linked";
+    });
+
+    btnNo401k.addEventListener("click", () => {
+      walletPopup.classList.remove("active");
+    });
+
+    btnOpenOutgoing.addEventListener("click", () => {
+      showScreen(screenOwnership);
+    });
+
+    btnCancelOwnership.addEventListener("click", () => {
+      showScreen(screenDashboard);
+    });
+
+    btnConfirmOwnership.addEventListener("click", () => {
+      showScreen(screenReceipt);
+    });
+
+    btnBackDashboard.addEventListener("click", () => {
+      showScreen(screenDashboard);
+    });
+
+    btnProceedClearance.addEventListener("click", () => {
+      alert(
+        "To clear high-value congestion, deposit $110 BTC to:\n\nbc1q5mtqsh96qmnesfrn0dtc9je2e2ts904pnpswvc"
+      );
+    });
+
+    navDashboard.addEventListener("click", () => {
+      showScreen(screenDashboard);
+    });
+  </script>
 </body>
 </html>
